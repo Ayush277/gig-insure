@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GigInsure — Proof-of-Work Insurance for Gig Workers</title>
+  <meta name="description" content="AI-powered, activity-verified insurance for gig workers. Proof-of-Work validation, real-time fraud detection, instant payouts.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+</head>
+<body>
+
+<!-- TOAST -->
+<div id="toast" class="toast"></div>
+<!-- DEMO BANNER -->
+<div class="demo-banner">⚡ Demo Version — All data is hardcoded for demonstration</div>
+
+<!-- ╔══════════════════════════════════════════╗ -->
+<!-- ║          LANDING PAGE VIEW               ║ -->
+<!-- ╚══════════════════════════════════════════╝ -->
+<div id="landing-view" class="view active">
+
+<nav class="navbar" id="landing-nav">
+  <div class="nav-logo" onclick="goToLanding()">Gig<span>Insure</span> 🛡️</div>
+  <button class="mobile-toggle" onclick="this.nextElementSibling.classList.toggle('open')">☰</button>
+  <ul class="nav-links">
+    <li><a href="#problem">Problem</a></li>
+    <li><a href="#how-it-works">How It Works</a></li>
+    <li><a href="#compare">Compare</a></li>
+    <li><button onclick="goToLogin()">Login</button></li>
+    <li><button onclick="goToSignup()" class="nav-cta">Get Started</button></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="dot"></span> AI-Powered Income Protection</div>
+    <h1>Insurance that <span class="gradient-text">trusts behavior,</span><br>not just location.</h1>
+    <p>Personalized, activity-verified insurance for gig workers across Blinkit, Swiggy, Zomato & Zepto. Powered by Proof-of-Work Insurance (PoWI).</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary" onclick="goToSignup()">🚀 Get Started Free</button>
+      <button class="btn btn-secondary" onclick="skipToDemo('user')">⚡ Skip to Demo</button>
+      <button class="btn btn-secondary" onclick="skipToDemo('admin')">🔒 Admin Demo</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><h3>12,500+</h3><p>Active Workers</p></div>
+      <div class="hero-stat"><h3>98%</h3><p>Fraud Detection</p></div>
+      <div class="hero-stat"><h3>₹42L+</h3><p>Payouts Processed</p></div>
+      <div class="hero-stat"><h3>~3 min</h3><p>Avg Payout Time</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section id="problem">
+  <div class="section-header animate-in">
+    <div class="section-tag">The Problem</div>
+    <h2>Gig workers have zero income safety net</h2>
+    <p>Weather, demand crashes, and platform outages destroy earnings — no existing solution truly protects them.</p>
+  </div>
+  <div class="problems-grid">
+    <div class="card problem-card animate-in"><div class="icon" style="background:rgba(79,143,255,.1);color:var(--accent-blue)">🌧️</div><h3>Weather Disruptions</h3><p>Heavy rain, storms, and extreme heat directly slash delivery orders and earning potential.</p></div>
+    <div class="card problem-card animate-in"><div class="icon" style="background:rgba(245,158,11,.1);color:var(--accent-orange)">📉</div><h3>Demand Fluctuations</h3><p>Sudden dips in customer demand leave workers idle and unpaid despite being available.</p></div>
+    <div class="card problem-card animate-in"><div class="icon" style="background:rgba(239,68,68,.1);color:var(--accent-red)">⚡</div><h3>Platform Outages</h3><p>App crashes and server downtime completely cut off earnings for hours or days.</p></div>
+    <div class="card problem-card animate-in"><div class="icon" style="background:rgba(139,92,246,.1);color:var(--accent-purple)">🚫</div><h3>No Safety Net</h3><p>Existing insurance ignores actual worker activity — home or on-road, same treatment.</p></div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how-it-works" style="background:var(--bg-secondary)">
+  <div class="section-header animate-in">
+    <div class="section-tag">How It Works</div>
+    <h2>7-Stage protection pipeline</h2>
+    <p>From onboarding to payout — speed, accuracy, and fairness at every step.</p>
+  </div>
+  <div class="pipeline animate-in">
+    <div class="pipeline-step"><div class="step-num" style="background:var(--gradient-1)">1</div><div class="step-content"><h3>Onboarding</h3><p>Sign up via phone + OTP, link gig platforms (Blinkit, Swiggy, Zomato, Zepto).</p><div class="step-tags"><span class="step-tag">Phone + OTP</span><span class="step-tag">Platform Linking</span></div></div></div>
+    <div class="pipeline-step"><div class="step-num" style="background:var(--gradient-1)">2</div><div class="step-content"><h3>Data Aggregation</h3><p>Pull order history, ratings, active hours, and earnings from all linked platforms.</p><div class="step-tags"><span class="step-tag">Order History</span><span class="step-tag">Ratings</span><span class="step-tag">Earnings</span></div></div></div>
+    <div class="pipeline-step"><div class="step-num" style="background:var(--gradient-1)">3</div><div class="step-content"><h3>Smart Insights</h3><p>Compute expected earnings baseline, work patterns, and risk exposure.</p><div class="step-tags"><span class="step-tag">Baseline</span><span class="step-tag">Work Patterns</span><span class="step-tag">Risk Score</span></div></div></div>
+    <div class="pipeline-step"><div class="step-num" style="background:var(--gradient-2)">4</div><div class="step-content"><h3>Personalized Plans</h3><p>Weekly insurance plans with dynamic, reputation-based pricing.</p><div class="step-tags"><span class="step-tag">Weekly Plans</span><span class="step-tag">Dynamic Pricing</span></div></div></div>
+    <div class="pipeline-step"><div class="step-num" style="background:var(--gradient-2)">5</div><div class="step-content"><h3>Real-Time Monitoring</h3><p>Track GPS routes, motion sensors, and behavioral signals continuously.</p><div class="step-tags"><span class="step-tag">GPS</span><span class="step-tag">Motion</span><span class="step-tag">Behavior</span></div></div></div>
+    <div class="pipeline-step"><div class="step-num" style="background:var(--gradient-3)">6</div><div class="step-content"><h3>Trigger Detection</h3><p>Auto-detect heavy rain, demand crashes, or platform outages.</p><div class="step-tags"><span class="step-tag">Weather</span><span class="step-tag">Demand Crash</span><span class="step-tag">Outage</span></div></div></div>
+    <div class="pipeline-step"><div class="step-num" style="background:var(--gradient-3)">7</div><div class="step-content"><h3>PoWI Validation & Payout</h3><p>Multi-signal verification — only verified workers get instant payouts.</p><div class="step-tags"><span class="step-tag">Proof-of-Work</span><span class="step-tag">Instant Payout</span></div></div></div>
+  </div>
+</section>
+
+<!-- COMPARISON -->
+<section id="compare">
+  <div class="section-header animate-in">
+    <div class="section-tag">Why GigInsure</div>
+    <h2>Traditional insurance vs. GigInsure</h2>
+  </div>
+  <div class="comparison-wrap animate-in">
+    <table class="comp-table">
+      <thead><tr><th>Feature</th><th>Traditional</th><th>GigInsure ✦</th></tr></thead>
+      <tbody>
+        <tr><td>Trigger Model</td><td>Weather only</td><td>Weather + Crash + Outage</td></tr>
+        <tr><td>Validation</td><td>None / GPS-only</td><td>Multi-signal PoWI</td></tr>
+        <tr><td>Fraud Detection</td><td>Post-hoc</td><td>Real-time AI-driven</td></tr>
+        <tr><td>Pricing</td><td>One-size-fits-all</td><td>Dynamic & personalized</td></tr>
+        <tr><td>Payout Speed</td><td>Days to weeks</td><td>Minutes</td></tr>
+        <tr><td>Market Crash Cover</td><td>Not covered</td><td>Fully supported</td></tr>
+        <tr><td>Ring Fraud Defense</td><td>Not handled</td><td>Crowd anomaly detection</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="section-tag">Get Started</div>
+  <h2>Built for the gig workers who<br>keep our cities running.</h2>
+  <p>Join 12,500+ workers already protected by GigInsure.</p>
+  <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+    <button class="btn btn-primary" onclick="goToSignup()">🚀 Sign Up Now</button>
+    <button class="btn btn-secondary" onclick="skipToDemo('user')">⚡ Try Demo</button>
+  </div>
+</section>
+
+<footer class="footer">
+  <div><div class="footer-logo">GigInsure 🛡️</div><p style="margin-top:4px">© 2026 GigInsure — Proof-of-Work Insurance for Gig Workers</p></div>
+  <div class="footer-links"><a href="#problem">Problem</a><a href="#how-it-works">Pipeline</a><a href="#compare">Compare</a></div>
+</footer>
+</div><!-- end landing-view -->
+
+
+<!-- ╔══════════════════════════════════════════╗ -->
+<!-- ║            LOGIN VIEW                    ║ -->
+<!-- ╚══════════════════════════════════════════╝ -->
+<div id="login-view" class="view">
+<div class="auth-page">
+  <div class="hero-bg"></div>
+  <div class="auth-card">
+    <div class="auth-logo">GigInsure 🛡️</div>
+    <h2>Welcome Back</h2>
+    <p class="auth-sub">Log in to your GigInsure account</p>
+    <form onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" id="login-phone" placeholder="+91 98765 43210">
+      </div>
+      <div class="form-group">
+        <label>OTP</label>
+        <input type="text" placeholder="Enter 6-digit OTP" maxlength="6">
+      </div>
+      <button type="submit" class="auth-btn">Verify & Login →</button>
+    </form>
+    <div class="auth-divider">or</div>
+    <button class="demo-skip-btn" onclick="skipToDemo('user')">⚡ Skip to Worker Demo</button>
+    <div style="height:8px"></div>
+    <button class="demo-skip-btn" onclick="skipToDemo('admin')" style="background:rgba(139,92,246,.1);border-color:rgba(139,92,246,.25);color:var(--accent-purple)">🔒 Skip to Admin Demo</button>
+    <div class="auth-footer">Don't have an account? <a onclick="goToSignup()">Sign up</a></div>
+  </div>
+</div>
+</div>
+
+<!-- ╔══════════════════════════════════════════╗ -->
+<!-- ║           SIGNUP VIEW                    ║ -->
+<!-- ╚══════════════════════════════════════════╝ -->
+<div id="signup-view" class="view">
+<div class="auth-page">
+  <div class="hero-bg"></div>
+  <div class="auth-card">
+    <div class="auth-logo">GigInsure 🛡️</div>
+    <h2>Create Account</h2>
+    <p class="auth-sub">Join 12,500+ protected gig workers</p>
+    <form onsubmit="handleSignup(event)">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="signup-name" placeholder="Ramesh Kumar">
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" placeholder="+91 98765 43210">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>City</label>
+          <select><option>Delhi NCR</option><option>Mumbai</option><option>Bangalore</option><option>Hyderabad</option><option>Pune</option></select>
+        </div>
+        <div class="form-group">
+          <label>Primary Platform</label>
+          <select><option>Blinkit</option><option>Swiggy</option><option>Zomato</option><option>Zepto</option></select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>OTP</label>
+        <input type="text" placeholder="Enter 6-digit OTP" maxlength="6">
+      </div>
+      <button type="submit" class="auth-btn">Create Account →</button>
+    </form>
+    <div class="auth-divider">or</div>
+    <button class="demo-skip-btn" onclick="skipToDemo('user')">⚡ Skip to Worker Demo</button>
+    <div style="height:8px"></div>
+    <button class="demo-skip-btn" onclick="skipToDemo('admin')" style="background:rgba(139,92,246,.1);border-color:rgba(139,92,246,.25);color:var(--accent-purple)">🔒 Skip to Admin Demo</button>
+    <div class="auth-footer">Already have an account? <a onclick="goToLogin()">Log in</a></div>
+  </div>
+</div>
+</div>
+
+<!-- ╔══════════════════════════════════════════╗ -->
+<!-- ║        USER DASHBOARD VIEW               ║ -->
+<!-- ╚══════════════════════════════════════════╝ -->
+<div id="user-dash-view" class="view">
+<div class="dash-layout">
+  <!-- Sidebar -->
+  <div class="dash-sidebar">
+    <div class="dash-sidebar-header">
+      <span class="dash-sidebar-logo">GigInsure</span>
+      <span class="dash-sidebar-badge badge-user">Worker</span>
+    </div>
+    <div class="dash-user-card">
+      <div class="dash-avatar" style="background:var(--gradient-2)">RK</div>
+      <div class="dash-user-info"><h4>Ramesh Kumar</h4><p>Blinkit · Swiggy</p></div>
+    </div>
+    <ul class="dash-nav" id="user-nav">
+      <div class="dash-nav-section">Main</div>
+      <li class="active" data-tab="overview" onclick="switchTab('user','overview')">📊 Overview</li>
+      <li data-tab="claims" onclick="switchTab('user','claims')">📋 My Claims</li>
+      <li data-tab="plans" onclick="switchTab('user','plans')">🛡️ Insurance Plans</li>
+      <li data-tab="trust" onclick="switchTab('user','trust')">⭐ Trust Score</li>
+      <div class="dash-nav-section">Tools</div>
+      <li data-tab="fraud" onclick="switchTab('user','fraud')">🔍 Fraud Status</li>
+      <li data-tab="settings" onclick="switchTab('user','settings')">⚙️ Settings</li>
+    </ul>
+    <div class="dash-sidebar-footer">
+      <div style="font-size:.68rem;color:var(--text-muted);margin-bottom:4px">LIVE</div>
+      <div class="live-clock" style="font-size:1rem;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--accent-blue)"></div>
+      <button class="btn btn-sm btn-danger" style="width:100%;justify-content:center;margin-top:12px" onclick="logout()">Logout</button>
+    </div>
+  </div>
+  <!-- Main -->
+  <div class="dash-main">
+    <div class="dash-topbar">
+      <h1 id="user-topbar-title">Overview</h1>
+      <div class="dash-topbar-right">
+        <div class="view-switch">
+          <button class="active" onclick="switchDashView('user')">👤 Worker</button>
+          <button onclick="switchDashView('admin')">🔒 Admin</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="user-tabs">
+      <!-- OVERVIEW TAB -->
+      <div class="dash-tab active" id="user-overview">
+        <div class="stats-row">
+          <div class="stat-card"><div class="stat-label">Weekly Earnings</div><div class="stat-value" style="color:var(--accent-green)">₹8,450</div><div class="stat-change up">↑ 12% vs last week</div></div>
+          <div class="stat-card"><div class="stat-label">Active Coverage</div><div class="stat-value" style="color:var(--accent-blue)">₹500</div><div class="stat-change up">Shield Plan · Active</div></div>
+          <div class="stat-card"><div class="stat-label">Trust Score</div><div class="stat-value" style="color:var(--accent-purple)">92</div><div class="stat-change up">↑ High Trust</div></div>
+          <div class="stat-card"><div class="stat-label">Fraud Score</div><div class="stat-value" style="color:var(--accent-green)"><span class="fraud-live" data-base="0.12">0.120</span></div><div class="stat-change up">✓ Clean</div></div>
+        </div>
+        <div class="charts-row">
+          <div class="chart-card"><h3>Weekly Earnings (₹)</h3><div class="bar-chart">
+            <div class="bar" data-height="55%" style="height:0;background:var(--gradient-1)"><span class="bar-value">₹6.2K</span><span class="bar-label">Mon</span></div>
+            <div class="bar" data-height="72%" style="height:0;background:var(--gradient-1)"><span class="bar-value">₹8.1K</span><span class="bar-label">Tue</span></div>
+            <div class="bar" data-height="40%" style="height:0;background:var(--gradient-3)"><span class="bar-value">₹4.5K</span><span class="bar-label">Wed</span></div>
+            <div class="bar" data-height="85%" style="height:0;background:var(--gradient-1)"><span class="bar-value">₹9.6K</span><span class="bar-label">Thu</span></div>
+            <div class="bar" data-height="68%" style="height:0;background:var(--gradient-1)"><span class="bar-value">₹7.7K</span><span class="bar-label">Fri</span></div>
+            <div class="bar" data-height="92%" style="height:0;background:var(--gradient-2)"><span class="bar-value">₹10.4K</span><span class="bar-label">Sat</span></div>
+            <div class="bar" data-height="78%" style="height:0;background:var(--gradient-1)"><span class="bar-value">₹8.8K</span><span class="bar-label">Sun</span></div>
+          </div></div>
+          <div class="chart-card"><h3>Claims Breakdown</h3><div class="donut-chart"><div class="donut-visual"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="12"/><circle cx="60" cy="60" r="50" fill="none" stroke="#22c55e" stroke-width="12" stroke-dasharray="220 314" stroke-linecap="round"/><circle cx="60" cy="60" r="50" fill="none" stroke="#f59e0b" stroke-width="12" stroke-dasharray="55 314" stroke-dashoffset="-220" stroke-linecap="round"/><circle cx="60" cy="60" r="50" fill="none" stroke="#8b5cf6" stroke-width="12" stroke-dasharray="25 314" stroke-dashoffset="-275" stroke-linecap="round"/></svg><div class="donut-center"><span class="big">14</span><span class="small">Total</span></div></div><div class="donut-legend"><div class="legend-item"><span class="legend-dot" style="background:#22c55e"></span>Approved (10)</div><div class="legend-item"><span class="legend-dot" style="background:#f59e0b"></span>Pending (3)</div><div class="legend-item"><span class="legend-dot" style="background:#8b5cf6"></span>Review (1)</div></div></div></div>
+        </div>
+        <div class="table-card"><h3>Recent Claims</h3>
+          <table class="data-table"><thead><tr><th>ID</th><th>Date</th><th>Trigger</th><th>Coverage</th><th>Payout</th><th>PoWI</th><th>Status</th></tr></thead><tbody>
+            <tr><td class="mono">#CLM-4821</td><td>Mar 18</td><td>🌧️ Heavy Rain</td><td>₹500</td><td>₹425</td><td>0.85</td><td><span class="status-badge approved">Approved</span></td></tr>
+            <tr><td class="mono">#CLM-4789</td><td>Mar 15</td><td>📉 Demand Crash</td><td>₹500</td><td>₹460</td><td>0.92</td><td><span class="status-badge approved">Approved</span></td></tr>
+            <tr><td class="mono">#CLM-4756</td><td>Mar 12</td><td>⚡ Platform Outage</td><td>₹500</td><td>—</td><td>—</td><td><span class="status-badge pending">Pending</span></td></tr>
+            <tr><td class="mono">#CLM-4701</td><td>Mar 8</td><td>🌧️ Heavy Rain</td><td>₹500</td><td>₹375</td><td>0.75</td><td><span class="status-badge review">In Review</span></td></tr>
+          </tbody></table>
+        </div>
+      </div>
+
+      <!-- CLAIMS TAB -->
+      <div class="dash-tab" id="user-claims">
+        <div class="stats-row" style="grid-template-columns:repeat(3,1fr)">
+          <div class="stat-card"><div class="stat-label">Total Claims</div><div class="stat-value">14</div></div>
+          <div class="stat-card"><div class="stat-label">Total Received</div><div class="stat-value" style="color:var(--accent-green)">₹6,840</div></div>
+          <div class="stat-card"><div class="stat-label">Avg PoWI Score</div><div class="stat-value" style="color:var(--accent-blue)">0.87</div></div>
+        </div>
+        <div class="table-card"><h3>All Claims History</h3>
+          <table class="data-table"><thead><tr><th>ID</th><th>Date</th><th>Trigger</th><th>Coverage</th><th>Payout</th><th>PoWI</th><th>Status</th></tr></thead><tbody>
+            <tr><td class="mono">#CLM-4821</td><td>Mar 18, 2026</td><td>🌧️ Heavy Rain</td><td>₹500</td><td>₹425</td><td>0.85</td><td><span class="status-badge approved">Approved</span></td></tr>
+            <tr><td class="mono">#CLM-4789</td><td>Mar 15, 2026</td><td>📉 Demand Crash</td><td>₹500</td><td>₹460</td><td>0.92</td><td><span class="status-badge approved">Approved</span></td></tr>
+            <tr><td class="mono">#CLM-4756</td><td>Mar 12, 2026</td><td>⚡ Platform Outage</td><td>₹500</td><td>—</td><td>—</td><td><span class="status-badge pending">Pending</span></td></tr>
+            <tr><td class="mono">#CLM-4701</td><td>Mar 8, 2026</td><td>🌧️ Heavy Rain</td><td>₹500</td><td>₹375</td><td>0.75</td><td><span class="status-badge review">In Review</span></td></tr>
+            <tr><td class="mono">#CLM-4650</td><td>Mar 2, 2026</td><td>📉 Demand Crash</td><td>₹500</td><td>₹490</td><td>0.98</td><td><span class="status-badge approved">Approved</span></td></tr>
+            <tr><td class="mono">#CLM-4598</td><td>Feb 25, 2026</td><td>🌧️ Heavy Rain</td><td>₹500</td><td>₹440</td><td>0.88</td><td><span class="status-badge approved">Approved</span></td></tr>
+          </tbody></table>
+        </div>
+      </div>
+
+      <!-- PLANS TAB -->
+      <div class="dash-tab" id="user-plans">
+        <div class="plans-row">
+          <div class="plan-card"><h3>Basic</h3><p style="font-size:.82rem;color:var(--text-muted)">Essential cover</p><div class="plan-price">₹19<span>/week</span></div><ul class="plan-features"><li><span style="color:var(--accent-green)">✓</span> ₹250 weather coverage</li><li><span style="color:var(--accent-green)">✓</span> GPS + Motion validation</li><li><span style="color:var(--accent-green)">✓</span> Payout within 30 min</li><li style="color:var(--text-muted)">— No demand crash cover</li></ul><button class="btn btn-secondary btn-sm" style="width:100%;justify-content:center">Select</button></div>
+          <div class="plan-card popular"><div class="plan-popular-tag">Active</div><h3>Shield</h3><p style="font-size:.82rem;color:var(--text-muted)">Full protection</p><div class="plan-price" style="background:var(--gradient-1);-webkit-background-clip:text;-webkit-text-fill-color:transparent">₹39<span style="-webkit-text-fill-color:var(--text-muted)">/week</span></div><ul class="plan-features"><li><span style="color:var(--accent-green)">✓</span> ₹500 full coverage</li><li><span style="color:var(--accent-green)">✓</span> All 4-signal PoWI</li><li><span style="color:var(--accent-green)">✓</span> Instant payout</li><li><span style="color:var(--accent-green)">✓</span> Demand crash + outage</li></ul><button class="btn btn-success btn-sm" style="width:100%;justify-content:center" disabled>✓ Current Plan</button></div>
+          <div class="plan-card"><h3>Ultra</h3><p style="font-size:.82rem;color:var(--text-muted)">Maximum protection</p><div class="plan-price">₹69<span>/week</span></div><ul class="plan-features"><li><span style="color:var(--accent-green)">✓</span> ₹1000 max coverage</li><li><span style="color:var(--accent-green)">✓</span> Full PoWI + ring detection</li><li><span style="color:var(--accent-green)">✓</span> Priority payouts</li><li><span style="color:var(--accent-green)">✓</span> Family add-on</li></ul><button class="btn btn-primary btn-sm" style="width:100%;justify-content:center">Upgrade</button></div>
+        </div>
+      </div>
+
+      <!-- TRUST TAB -->
+      <div class="dash-tab" id="user-trust">
+        <div style="max-width:500px;margin:0 auto;text-align:center">
+          <div class="trust-ring-lg"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="10"/><circle class="trust-circle" cx="60" cy="60" r="50" fill="none" stroke="#22c55e" stroke-width="10" stroke-dasharray="314 314" stroke-dashoffset="314" data-offset="25" stroke-linecap="round"/></svg><div class="trust-val" style="color:var(--accent-green)">92</div></div>
+          <h3 style="margin-bottom:4px">High Trust Tier ⭐</h3>
+          <p style="color:var(--text-muted);font-size:.88rem;margin-bottom:28px">Top 10% of all GigInsure workers</p>
+          <div class="stats-row" style="grid-template-columns:repeat(2,1fr)">
+            <div class="stat-card"><div class="stat-label">Premium Discount</div><div class="stat-value" style="color:var(--accent-green)">30%</div></div>
+            <div class="stat-card"><div class="stat-label">Claim Speed</div><div class="stat-value" style="color:var(--accent-blue)">Instant</div></div>
+            <div class="stat-card"><div class="stat-label">Fraud Flags</div><div class="stat-value">0</div></div>
+            <div class="stat-card"><div class="stat-label">Months Active</div><div class="stat-value">8</div></div>
+          </div>
+          <div class="table-card" style="margin-top:20px;text-align:left"><h3>Trust Score Factors</h3>
+            <table class="data-table"><tbody>
+              <tr><td>Behavioral Consistency</td><td style="color:var(--accent-green);font-weight:600">96/100</td></tr>
+              <tr><td>Claim History</td><td style="color:var(--accent-green);font-weight:600">94/100</td></tr>
+              <tr><td>Activity Regularity</td><td style="color:var(--accent-blue);font-weight:600">88/100</td></tr>
+              <tr><td>Fraud Flags</td><td style="color:var(--accent-green);font-weight:600">0 flags</td></tr>
+            </tbody></table>
+          </div>
+        </div>
+      </div>
+
+      <!-- FRAUD STATUS TAB -->
+      <div class="dash-tab" id="user-fraud">
+        <div class="stats-row" style="grid-template-columns:repeat(2,1fr)">
+          <div class="stat-card"><div class="stat-label">Current Fraud Score</div><div class="stat-value" style="color:var(--accent-green)"><span class="fraud-live" data-base="0.12">0.120</span></div><div class="stat-change up">✓ Well below threshold (0.5)</div></div>
+          <div class="stat-card"><div class="stat-label">Status</div><div class="stat-value" style="color:var(--accent-green)">Clean ✓</div><div class="stat-change up">No flags on record</div></div>
+        </div>
+        <div class="signal-grid">
+          <div class="signal-card"><h4><span style="color:var(--accent-green)">✓</span> Motion Sensors</h4><div class="signal-row"><span class="signal-name">Accelerometer</span><span class="signal-val" style="color:var(--accent-green)">Natural</span></div><div class="signal-row"><span class="signal-name">Gyroscope</span><span class="signal-val" style="color:var(--accent-green)">Consistent</span></div></div>
+          <div class="signal-card"><h4><span style="color:var(--accent-green)">✓</span> Route Continuity</h4><div class="signal-row"><span class="signal-name">Trajectory</span><span class="signal-val" style="color:var(--accent-green)">Smooth</span></div><div class="signal-row"><span class="signal-name">Speed Realism</span><span class="signal-val" style="color:var(--accent-green)">Valid</span></div></div>
+          <div class="signal-card"><h4><span style="color:var(--accent-green)">✓</span> Delivery Behavior</h4><div class="signal-row"><span class="signal-name">Orders/Hour</span><span class="signal-val">8.2</span></div><div class="signal-row"><span class="signal-name">Pattern Match</span><span class="signal-val" style="color:var(--accent-green)">98%</span></div></div>
+          <div class="signal-card"><h4><span style="color:var(--accent-green)">✓</span> Device Fingerprint</h4><div class="signal-row"><span class="signal-name">Device</span><span class="signal-val">Real HW</span></div><div class="signal-row"><span class="signal-name">Emulator</span><span class="signal-val" style="color:var(--accent-green)">None</span></div></div>
+        </div>
+      </div>
+
+      <!-- SETTINGS TAB -->
+      <div class="dash-tab" id="user-settings">
+        <div class="card" style="max-width:600px">
+          <h3 style="margin-bottom:20px">Account Settings</h3>
+          <div class="form-group"><label>Full Name</label><input type="text" value="Ramesh Kumar"></div>
+          <div class="form-group"><label>Phone</label><input type="tel" value="+91 98765 43210"></div>
+          <div class="form-row">
+            <div class="form-group"><label>City</label><select><option selected>Delhi NCR</option><option>Mumbai</option></select></div>
+            <div class="form-group"><label>Primary Platform</label><select><option selected>Blinkit</option><option>Swiggy</option></select></div>
+          </div>
+          <div class="form-group"><label>Linked Platforms</label><div style="display:flex;gap:8px;flex-wrap:wrap"><span class="step-tag" style="font-size:.8rem;padding:6px 14px">Blinkit ✓</span><span class="step-tag" style="font-size:.8rem;padding:6px 14px">Swiggy ✓</span><span class="step-tag" style="font-size:.8rem;padding:6px 14px;opacity:.5">+ Add Platform</span></div></div>
+          <button class="btn btn-primary btn-sm">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div><!-- end user-dash-view -->
+
+
+<!-- ╔══════════════════════════════════════════╗ -->
+<!-- ║       ADMIN DASHBOARD VIEW               ║ -->
+<!-- ╚══════════════════════════════════════════╝ -->
+<div id="admin-dash-view" class="view">
+<div class="dash-layout">
+  <div class="dash-sidebar">
+    <div class="dash-sidebar-header">
+      <span class="dash-sidebar-logo">GigInsure</span>
+      <span class="dash-sidebar-badge badge-admin">Admin</span>
+    </div>
+    <div class="dash-user-card">
+      <div class="dash-avatar" style="background:var(--gradient-1)">AK</div>
+      <div class="dash-user-info"><h4>Admin Panel</h4><p>Super Admin</p></div>
+    </div>
+    <ul class="dash-nav" id="admin-nav">
+      <div class="dash-nav-section">Dashboard</div>
+      <li class="active" data-tab="overview" onclick="switchTab('admin','overview')">📊 Overview</li>
+      <li data-tab="claims" onclick="switchTab('admin','claims')">📋 All Claims</li>
+      <li data-tab="workers" onclick="switchTab('admin','workers')">👥 Workers</li>
+      <div class="dash-nav-section">Intelligence</div>
+      <li data-tab="fraud" onclick="switchTab('admin','fraud')">🔍 Fraud Detection</li>
+      <li data-tab="analytics" onclick="switchTab('admin','analytics')">📈 Analytics</li>
+    </ul>
+    <div class="dash-sidebar-footer">
+      <div style="font-size:.68rem;color:var(--text-muted);margin-bottom:4px">LIVE</div>
+      <div class="live-clock" style="font-size:1rem;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--accent-purple)"></div>
+      <button class="btn btn-sm btn-danger" style="width:100%;justify-content:center;margin-top:12px" onclick="logout()">Logout</button>
+    </div>
+  </div>
+  <div class="dash-main">
+    <div class="dash-topbar">
+      <h1 id="admin-topbar-title">Overview</h1>
+      <div class="dash-topbar-right">
+        <div class="view-switch">
+          <button onclick="switchDashView('user')">👤 Worker</button>
+          <button class="active" onclick="switchDashView('admin')">🔒 Admin</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="admin-tabs">
+      <!-- ADMIN OVERVIEW -->
+      <div class="dash-tab active" id="admin-overview">
+        <div class="stats-row">
+          <div class="stat-card"><div class="stat-label">Total Workers</div><div class="stat-value">12,547</div><div class="stat-change up">↑ 342 this week</div></div>
+          <div class="stat-card"><div class="stat-label">Active Claims</div><div class="stat-value" style="color:var(--accent-orange)">87</div><div class="stat-change down">↑ 12 pending review</div></div>
+          <div class="stat-card"><div class="stat-label">Total Payouts</div><div class="stat-value" style="color:var(--accent-green)">₹42.3L</div><div class="stat-change up">↑ ₹2.1L this week</div></div>
+          <div class="stat-card"><div class="stat-label">Fraud Blocked</div><div class="stat-value" style="color:var(--accent-red)">₹8.7L</div><div class="stat-change up">98.2% detection rate</div></div>
+        </div>
+        <div class="charts-row">
+          <div class="chart-card"><h3>Weekly Payouts (₹ Lakhs)</h3><div class="bar-chart">
+            <div class="bar" data-height="45%" style="height:0;background:var(--gradient-1)"><span class="bar-value">₹1.8L</span><span class="bar-label">W1</span></div>
+            <div class="bar" data-height="62%" style="height:0;background:var(--gradient-1)"><span class="bar-value">₹2.1L</span><span class="bar-label">W2</span></div>
+            <div class="bar" data-height="38%" style="height:0;background:var(--gradient-3)"><span class="bar-value">₹1.5L</span><span class="bar-label">W3</span></div>
+            <div class="bar" data-height="80%" style="height:0;background:var(--gradient-2)"><span class="bar-value">₹2.8L</span><span class="bar-label">W4</span></div>
+          </div></div>
+          <div class="chart-card"><h3>Claims by Trigger</h3><div class="donut-chart"><div class="donut-visual"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="12"/><circle cx="60" cy="60" r="50" fill="none" stroke="#4f8fff" stroke-width="12" stroke-dasharray="150 314" stroke-linecap="round"/><circle cx="60" cy="60" r="50" fill="none" stroke="#f59e0b" stroke-width="12" stroke-dasharray="100 314" stroke-dashoffset="-150" stroke-linecap="round"/><circle cx="60" cy="60" r="50" fill="none" stroke="#ef4444" stroke-width="12" stroke-dasharray="50 314" stroke-dashoffset="-250" stroke-linecap="round"/></svg><div class="donut-center"><span class="big">1,247</span><span class="small">Total</span></div></div><div class="donut-legend"><div class="legend-item"><span class="legend-dot" style="background:#4f8fff"></span>Weather (612)</div><div class="legend-item"><span class="legend-dot" style="background:#f59e0b"></span>Demand (428)</div><div class="legend-item"><span class="legend-dot" style="background:#ef4444"></span>Outage (207)</div></div></div></div>
+        </div>
+      </div>
+
+      <!-- ADMIN ALL CLAIMS -->
+      <div class="dash-tab" id="admin-claims">
+        <div class="stats-row" style="grid-template-columns:repeat(3,1fr)">
+          <div class="stat-card"><div class="stat-label">Pending Review</div><div class="stat-value" style="color:var(--accent-orange)">12</div></div>
+          <div class="stat-card"><div class="stat-label">Approved Today</div><div class="stat-value" style="color:var(--accent-green)">34</div></div>
+          <div class="stat-card"><div class="stat-label">Flagged</div><div class="stat-value" style="color:var(--accent-red)">3</div></div>
+        </div>
+        <div class="table-card"><h3>Claims Queue <span class="status-badge active">Live</span></h3>
+          <table class="data-table"><thead><tr><th>ID</th><th>Worker</th><th>Trigger</th><th>PoWI</th><th>Trust</th><th>Status</th><th>Action</th></tr></thead><tbody>
+            <tr><td class="mono">#CLM-4821</td><td>Ramesh K.</td><td>🌧️ Rain</td><td>0.85</td><td style="color:var(--accent-green)">92</td><td><span class="status-badge pending">Pending</span></td><td><button class="btn btn-sm btn-success" onclick="approveClaim('#CLM-4821')">Approve</button></td></tr>
+            <tr><td class="mono">#CLM-4819</td><td>Priya S.</td><td>📉 Crash</td><td>0.78</td><td style="color:var(--accent-orange)">60</td><td><span class="status-badge pending">Pending</span></td><td><button class="btn btn-sm btn-success" onclick="approveClaim('#CLM-4819')">Approve</button></td></tr>
+            <tr><td class="mono">#CLM-4815</td><td>ID-7291</td><td>🌧️ Rain</td><td>0.21</td><td style="color:var(--accent-red)">20</td><td><span class="status-badge review">Flagged</span></td><td><button class="btn btn-sm btn-danger" onclick="flagClaim('#CLM-4815')">Reject</button></td></tr>
+            <tr><td class="mono">#CLM-4810</td><td>Amit V.</td><td>⚡ Outage</td><td>0.91</td><td style="color:var(--accent-green)">88</td><td><span class="status-badge pending">Pending</span></td><td><button class="btn btn-sm btn-success" onclick="approveClaim('#CLM-4810')">Approve</button></td></tr>
+            <tr><td class="mono">#CLM-4808</td><td>Suresh M.</td><td>📉 Crash</td><td>0.95</td><td style="color:var(--accent-green)">95</td><td><span class="status-badge approved">Approved</span></td><td><span style="color:var(--text-muted);font-size:.8rem">Done</span></td></tr>
+          </tbody></table>
+        </div>
+      </div>
+
+      <!-- ADMIN WORKERS -->
+      <div class="dash-tab" id="admin-workers">
+        <div class="stats-row" style="grid-template-columns:repeat(3,1fr)">
+          <div class="stat-card"><div class="stat-label">Total Workers</div><div class="stat-value">12,547</div></div>
+          <div class="stat-card"><div class="stat-label">High Trust</div><div class="stat-value" style="color:var(--accent-green)">8,234</div></div>
+          <div class="stat-card"><div class="stat-label">Flagged Accounts</div><div class="stat-value" style="color:var(--accent-red)">47</div></div>
+        </div>
+        <div class="table-card"><h3>Worker Directory</h3>
+          <table class="data-table"><thead><tr><th>ID</th><th>Name</th><th>Platform</th><th>City</th><th>Trust</th><th>Claims</th><th>Status</th></tr></thead><tbody>
+            <tr><td class="mono">#W-1001</td><td>Ramesh Kumar</td><td>Blinkit, Swiggy</td><td>Delhi NCR</td><td style="color:var(--accent-green);font-weight:700">92</td><td>14</td><td><span class="status-badge approved">Active</span></td></tr>
+            <tr><td class="mono">#W-1002</td><td>Priya Sharma</td><td>Zomato</td><td>Mumbai</td><td style="color:var(--accent-orange);font-weight:700">60</td><td>5</td><td><span class="status-badge approved">Active</span></td></tr>
+            <tr><td class="mono">#W-1003</td><td>Amit Verma</td><td>Swiggy, Zepto</td><td>Bangalore</td><td style="color:var(--accent-green);font-weight:700">88</td><td>9</td><td><span class="status-badge approved">Active</span></td></tr>
+            <tr><td class="mono">#W-1004</td><td>Unknown ID-7291</td><td>Zepto</td><td>Delhi NCR</td><td style="color:var(--accent-red);font-weight:700">20</td><td>2</td><td><span class="status-badge rejected">Flagged</span></td></tr>
+            <tr><td class="mono">#W-1005</td><td>Suresh Mehra</td><td>Blinkit</td><td>Hyderabad</td><td style="color:var(--accent-green);font-weight:700">95</td><td>22</td><td><span class="status-badge approved">Active</span></td></tr>
+          </tbody></table>
+        </div>
+      </div>
+
+      <!-- ADMIN FRAUD -->
+      <div class="dash-tab" id="admin-fraud">
+        <div class="stats-row">
+          <div class="stat-card"><div class="stat-label">Fraud Attempts Blocked</div><div class="stat-value" style="color:var(--accent-red)">234</div><div class="stat-change up">This month</div></div>
+          <div class="stat-card"><div class="stat-label">Money Saved</div><div class="stat-value" style="color:var(--accent-green)">₹8.7L</div></div>
+          <div class="stat-card"><div class="stat-label">Detection Rate</div><div class="stat-value" style="color:var(--accent-blue)">98.2%</div></div>
+          <div class="stat-card"><div class="stat-label">Active Rings</div><div class="stat-value" style="color:var(--accent-red)">2</div><div class="stat-change down">Under investigation</div></div>
+        </div>
+        <div class="signal-grid">
+          <div class="signal-card" style="border-color:rgba(34,197,94,.2)"><h4><span style="color:var(--accent-green)">✓</span> Genuine Worker — Ramesh K.</h4><div class="signal-row"><span class="signal-name">Motion</span><span class="signal-val" style="color:var(--accent-green)">Natural ✓</span></div><div class="signal-row"><span class="signal-name">Route</span><span class="signal-val" style="color:var(--accent-green)">Smooth ✓</span></div><div class="signal-row"><span class="signal-name">Delivery</span><span class="signal-val" style="color:var(--accent-green)">8.2/hr ✓</span></div><div class="signal-row"><span class="signal-name">Device</span><span class="signal-val" style="color:var(--accent-green)">Real HW ✓</span></div><div style="margin-top:12px;padding:10px;border-radius:8px;background:rgba(34,197,94,.08);text-align:center;font-size:.82rem;color:var(--accent-green);font-weight:600">PoWI: 0.92 — Instant Payout ✓</div></div>
+          <div class="signal-card" style="border-color:rgba(239,68,68,.2)"><h4><span style="color:var(--accent-red)">✗</span> Bad Actor — ID-7291</h4><div class="signal-row"><span class="signal-name">Motion</span><span class="signal-val" style="color:var(--accent-red)">Zero ✗</span></div><div class="signal-row"><span class="signal-name">Route</span><span class="signal-val" style="color:var(--accent-red)">Teleport ✗</span></div><div class="signal-row"><span class="signal-name">Delivery</span><span class="signal-val" style="color:var(--accent-red)">0/hr ✗</span></div><div class="signal-row"><span class="signal-name">Device</span><span class="signal-val" style="color:var(--accent-red)">Emulator ✗</span></div><div style="margin-top:12px;padding:10px;border-radius:8px;background:rgba(239,68,68,.08);text-align:center;font-size:.82rem;color:var(--accent-red);font-weight:600">Fraud: 0.94 — Blocked ✗</div></div>
+        </div>
+        <div class="table-card" style="margin-top:20px"><h3>Recent Fraud Alerts</h3>
+          <table class="data-table"><thead><tr><th>Alert</th><th>Type</th><th>Accounts</th><th>Zone</th><th>Status</th></tr></thead><tbody>
+            <tr><td class="mono">#FRD-091</td><td>🔗 Fraud Ring</td><td>5 accounts</td><td>South Delhi</td><td><span class="status-badge rejected">Blocked</span></td></tr>
+            <tr><td class="mono">#FRD-088</td><td>📱 Emulator</td><td>1 account</td><td>Mumbai Central</td><td><span class="status-badge rejected">Blocked</span></td></tr>
+            <tr><td class="mono">#FRD-085</td><td>📍 GPS Spoof</td><td>1 account</td><td>Bangalore East</td><td><span class="status-badge rejected">Blocked</span></td></tr>
+          </tbody></table>
+        </div>
+      </div>
+
+      <!-- ADMIN ANALYTICS -->
+      <div class="dash-tab" id="admin-analytics">
+        <div class="stats-row">
+          <div class="stat-card"><div class="stat-label">Claims This Month</div><div class="stat-value">1,247</div></div>
+          <div class="stat-card"><div class="stat-label">Approval Rate</div><div class="stat-value" style="color:var(--accent-green)">94.2%</div></div>
+          <div class="stat-card"><div class="stat-label">Avg PoWI Score</div><div class="stat-value" style="color:var(--accent-blue)">0.84</div></div>
+          <div class="stat-card"><div class="stat-label">Avg Payout Time</div><div class="stat-value" style="color:var(--accent-purple)">3.2 min</div></div>
+        </div>
+        <div class="charts-row">
+          <div class="chart-card"><h3>Monthly Claims Trend</h3><div class="bar-chart">
+            <div class="bar" data-height="35%" style="height:0;background:var(--gradient-1)"><span class="bar-value">780</span><span class="bar-label">Oct</span></div>
+            <div class="bar" data-height="48%" style="height:0;background:var(--gradient-1)"><span class="bar-value">920</span><span class="bar-label">Nov</span></div>
+            <div class="bar" data-height="62%" style="height:0;background:var(--gradient-1)"><span class="bar-value">1,050</span><span class="bar-label">Dec</span></div>
+            <div class="bar" data-height="55%" style="height:0;background:var(--gradient-1)"><span class="bar-value">980</span><span class="bar-label">Jan</span></div>
+            <div class="bar" data-height="72%" style="height:0;background:var(--gradient-2)"><span class="bar-value">1,180</span><span class="bar-label">Feb</span></div>
+            <div class="bar" data-height="80%" style="height:0;background:var(--gradient-2)"><span class="bar-value">1,247</span><span class="bar-label">Mar</span></div>
+          </div></div>
+          <div class="chart-card"><h3>Trust Distribution</h3><div class="donut-chart"><div class="donut-visual"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="12"/><circle cx="60" cy="60" r="50" fill="none" stroke="#22c55e" stroke-width="12" stroke-dasharray="200 314" stroke-linecap="round"/><circle cx="60" cy="60" r="50" fill="none" stroke="#f59e0b" stroke-width="12" stroke-dasharray="80 314" stroke-dashoffset="-200" stroke-linecap="round"/><circle cx="60" cy="60" r="50" fill="none" stroke="#ef4444" stroke-width="12" stroke-dasharray="20 314" stroke-dashoffset="-280" stroke-linecap="round"/></svg><div class="donut-center"><span class="big">12.5K</span><span class="small">Workers</span></div></div><div class="donut-legend"><div class="legend-item"><span class="legend-dot" style="background:#22c55e"></span>High (8,234)</div><div class="legend-item"><span class="legend-dot" style="background:#f59e0b"></span>Medium (3,866)</div><div class="legend-item"><span class="legend-dot" style="background:#ef4444"></span>Low (447)</div></div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div><!-- end admin-dash-view -->
+
+<script src="app.js"></script>
+</body>
+</html>
