@@ -631,3 +631,4 @@ This ensures payouts are **proportional to actual verified effort**, not binary 
 **Built for the gig workers who keep our cities running.**
 
 </div>
+</div>
