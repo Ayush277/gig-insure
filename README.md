@@ -19,6 +19,7 @@
 
 - [Problem Statement](#problem-statement)
 - [Solution](#solution)
+- [Key Differentiators](#key-differentiators)
 - [Core Innovation: Proof-of-Work Insurance (PoWI)](#core-innovation-proof-of-work-insurance-powi)
 - [Target Users — Deep Persona](#target-users--deep-persona)
 - [System Overview — How It Works](#system-overview--how-it-works)
@@ -39,12 +40,12 @@ Gig workers across platforms like **Blinkit**, **Swiggy**, **Zomato**, and **Zep
 
 ### The core issues:
 
-| Challenge | Description |
-|:---|:---|
-| **Weather Disruptions** | Heavy rain, storms, and extreme heat directly reduce orders and earning potential |
-| **Demand Fluctuations** | Sudden dips in customer demand leave workers idle despite being active |
-| **Platform Outages** | App crashes, server downtime, and technical failures cut off earnings entirely |
-| **No Income Safety Net** | No structured system exists to protect workers from income loss during these events |
+| # | Challenge                | Description                                                                             |
+|:-:|:-------------------------|:----------------------------------------------------------------------------------------|
+| 1 | **Weather Disruptions**  | Heavy rain, storms, and extreme heat directly reduce orders and earning potential        |
+| 2 | **Demand Fluctuations**  | Sudden dips in customer demand leave workers idle despite being active                   |
+| 3 | **Platform Outages**     | App crashes, server downtime, and technical failures cut off earnings entirely           |
+| 4 | **No Income Safety Net** | No structured system exists to protect workers from income loss during these events      |
 
 ### What's wrong with existing solutions?
 
@@ -86,6 +87,117 @@ Existing parametric insurance models fall short because they:
 
 ---
 
+## Key Differentiators
+
+GigInsure is built around three core pillars that address the hardest challenges in gig economy insurance. Each pillar is detailed in depth in its respective section below.
+
+---
+
+### 1. The Differentiation — Genuine Worker vs. Bad Actor
+
+> **How does the AI/ML architecture differentiate between a genuinely stranded delivery partner and a bad actor spoofing their location?**
+
+GigInsure does **not** rely on GPS coordinates alone. A spoofed GPS signal can mimic location — but it **cannot** mimic the full behavioral fingerprint of a real delivery worker on the road.
+
+Our system cross-validates **four independent signal categories** simultaneously:
+
+| Signal Category         | What It Captures                                      | Why Spoofing Fails                                                   |
+|:------------------------|:------------------------------------------------------|:---------------------------------------------------------------------|
+| **Motion Sensors**      | Accelerometer and gyroscope readings from the device  | A stationary phone with fake GPS produces zero real motion data      |
+| **Route Continuity**    | GPS trajectory smoothness, distance-time realism      | Spoofed routes show teleportation, impossible speeds, abrupt jumps   |
+| **Delivery Behavior**   | Orders/hour rate, pickup-drop clustering, idle gaps   | Fake accounts cannot replicate a genuine worker's delivery rhythm    |
+| **Device Fingerprint**  | Hardware ID, emulator detection, root status          | Emulators and virtual devices lack real hardware sensor signatures   |
+
+**The key insight:** a genuine worker who is stranded in heavy rain will show:
+- Real motion data (walking to shelter, standing still naturally)
+- A route that ended logically at a real location
+- A delivery history up until the disruption point
+- A real device with consistent hardware signatures
+
+An attacker spoofing their location will show:
+- Zero or synthetic motion data
+- GPS coordinates that jump unnaturally
+- No genuine delivery activity preceding the claim
+- Possible emulator or rooted device signature
+
+> **Result:** The attacker would need to simultaneously fake motion sensors, GPS trajectories, delivery history, AND device hardware — a cost that far exceeds any payout benefit, making spoofing economically unviable.
+
+*Deep dive: [Adversarial Defense & Anti-Spoofing Strategy](#adversarial-defense--anti-spoofing-strategy) · [AI / ML Architecture](#ai--ml-architecture)*
+
+---
+
+### 2. The Data — Beyond GPS, Detecting Coordinated Fraud Rings
+
+> **What specific data points, beyond basic GPS coordinates, does the system analyze to detect a coordinated fraud ring?**
+
+GigInsure ingests and correlates **six distinct data layers** to identify both individual fraud and coordinated ring activity:
+
+| # | Data Layer                   | Specific Signals Analyzed                                                                      | Fraud Ring Detection Role                                                |
+|:-:|:-----------------------------|:-----------------------------------------------------------------------------------------------|:-------------------------------------------------------------------------|
+| 1 | **Accelerometer & Gyroscope**| Device orientation changes, vibration patterns, movement acceleration                          | Identifies accounts with identical "no real motion" signatures            |
+| 2 | **Route Data**               | Trajectory smoothness, speed between points, heading changes, stop durations                   | Flags multiple accounts with suspiciously similar fabricated routes       |
+| 3 | **Delivery Behavior**        | Orders completed per hour, time between pickups and drops, idle period durations                | Detects accounts with zero real deliveries filing simultaneous claims     |
+| 4 | **Device Signals**           | Hardware device ID, emulator fingerprints, rooted device indicators, SIM data                  | Catches multiple accounts operating from same physical device or emulator |
+| 5 | **Crowd Patterns**           | Claims from same geographic zone within same time window, shared IP addresses                  | Core ring detection — correlated claim clusters from nearby "workers"     |
+| 6 | **Historical Behavior**      | Long-term trust score, claim frequency, earnings consistency, cancellation history             | Identifies new/suspicious accounts that lack genuine behavioral history   |
+
+**How fraud ring detection works specifically:**
+
+A coordinated fraud ring — where multiple fake accounts file claims from the same area during the same weather event — leaves distinct statistical signatures:
+
+| Ring Indicator                     | What the System Looks For                                                              |
+|:-----------------------------------|:---------------------------------------------------------------------------------------|
+| **Spatial clustering**             | Multiple claims originating from an unusually small radius within the same time window  |
+| **Temporal synchronization**       | Claims filed within seconds or minutes of each other, rather than naturally distributed |
+| **Motion pattern similarity**      | Identical or near-identical accelerometer signatures across different accounts          |
+| **Device correlation**             | Shared device IDs, IP addresses, or SIM identifiers across "different" accounts        |
+| **Behavioral emptiness**           | Claiming accounts have minimal or no genuine delivery history on any linked platform    |
+
+> **Result:** Even if individual spoofed accounts pass basic location checks, the **cross-account correlation** layer catches groups acting in concert.
+
+*Deep dive: [Multi-Signal Fraud Detection Pipeline](#2-multi-signal-fraud-detection-pipeline) · [Crowd Anomaly Detection](#e-crowd-anomaly-detection)*
+
+---
+
+### 3. The UX Balance — Fair Treatment of Flagged Claims
+
+> **How does the workflow handle "flagged" claims without unfairly penalizing honest gig workers who might just be experiencing a genuine network drop in bad weather?**
+
+This is a critical design constraint. A genuine worker stuck in heavy rain with a poor network connection may produce data that *looks* irregular — GPS gaps, delayed motion data, or missing order updates. The system **must not** punish this worker.
+
+GigInsure addresses this through a **three-tier confidence system**:
+
+| Confidence Tier   | Trigger Conditions                                                                 | System Action                          | Worker Experience                                                                |
+|:------------------|:-----------------------------------------------------------------------------------|:---------------------------------------|:---------------------------------------------------------------------------------|
+| **High Confidence** | All signals consistent: motion, route, behavior, and device all pass validation   | Instant automatic payout               | Worker receives funds within minutes. No action required.                         |
+| **Medium Risk**     | Minor inconsistencies: GPS gaps, partial data loss, but core behavior is genuine  | Soft verification request              | Worker receives a simple prompt — selfie confirmation or one-tap acknowledgment. Takes under 30 seconds. |
+| **High Risk**       | Strong anomalies: zero motion, device fingerprint mismatch, ring-like patterns    | Queued for manual review               | Payout is **delayed, never rejected outright**. Reviewed within 24 hours by a human operator. |
+
+**The critical design decisions that protect genuine workers:**
+
+| Design Decision                           | Rationale                                                                                      |
+|:------------------------------------------|:-----------------------------------------------------------------------------------------------|
+| **Network drops are expected, not penalized** | The system is trained on the assumption that network disruptions are common during bad weather. GPS gaps alone never trigger high-risk flags. |
+| **Historical trust is weighted heavily**   | A worker with 6 months of clean history and a high trust score receives significantly more leniency than a new, unverified account. |
+| **Delayed ≠ denied**                      | High-risk claims are **never automatically rejected**. They are queued for human review — ensuring no genuine worker loses coverage due to an algorithmic edge case. |
+| **False negatives over false positives**   | The system is intentionally calibrated to err on the side of paying a potentially suspicious claim rather than denying a legitimate one. |
+| **Soft verification is non-invasive**      | Medium-risk workers are asked for a selfie or a single tap — not a multi-step form. The friction is measured in seconds, not minutes. |
+| **Context-aware thresholds**               | During confirmed severe weather events, the system automatically loosens anomaly thresholds for all workers in the affected area — because irregular data is *expected* in those conditions. |
+
+<div align="center">
+
+![Claim Handling Flow (UX Balance)](assets/claim_handling_flow.jpg)
+
+*Claim resolution flow — from trigger event to payout decision, with tiered confidence handling*
+
+</div>
+
+> **Core Principle:** A genuine worker should **never** be denied income protection. If there is doubt, the system leans toward approval and learns from the outcome — it does not block the worker.
+
+*Deep dive: [Streamlined Claim Handling](#3-streamlined-claim-handling) · [Reputation-Based Pricing](#reputation-based-pricing)*
+
+---
+
 ## Core Innovation: Proof-of-Work Insurance (PoWI)
 
 This is what sets GigInsure apart from every other solution in the market.
@@ -100,11 +212,11 @@ Valid Activity Score = Location Consistency
                     + Delivery Behavior Signals
 ```
 
-| Component | What It Measures | Why It Matters |
-|:---|:---|:---|
-| **Location Consistency** | GPS trajectory follows realistic routes | Catches fake/static GPS coordinates |
-| **Motion Pattern** | Accelerometer & gyroscope match real-world movement | Detects stationary devices with spoofed location |
-| **Delivery Behavior** | Orders/hour, pickup-drop clustering, idle patterns | Validates genuine work activity vs. idle claims |
+| Component                | What It Measures                                          | Why It Matters                                          |
+|:-------------------------|:----------------------------------------------------------|:--------------------------------------------------------|
+| **Location Consistency** | GPS trajectory follows realistic routes                   | Catches fake/static GPS coordinates                     |
+| **Motion Pattern**       | Accelerometer & gyroscope match real-world movement       | Detects stationary devices with spoofed location        |
+| **Delivery Behavior**    | Orders/hour, pickup-drop clustering, idle patterns        | Validates genuine work activity vs. idle claims         |
 
 **If the score falls below a dynamic threshold → the claim is flagged for review.**
 
@@ -118,21 +230,21 @@ Our users are **not** just "delivery partners." They are individuals navigating 
 
 ### Who they are:
 
-| Characteristic | Reality |
-|:---|:---|
-| **Income-unstable** | Earnings vary wildly week to week — no guaranteed paycheck |
-| **Incentive-driven** | Platform bonuses and surge pricing heavily influence behavior |
-| **Time-sensitive** | Every minute counts — delays directly reduce earnings |
-| **Platform-dependent** | Locked into platform ecosystems with little control over rules |
+| Characteristic          | Reality                                                                    |
+|:------------------------|:---------------------------------------------------------------------------|
+| **Income-unstable**     | Earnings vary wildly week to week — no guaranteed paycheck                 |
+| **Incentive-driven**    | Platform bonuses and surge pricing heavily influence behavior               |
+| **Time-sensitive**      | Every minute counts — delays directly reduce earnings                      |
+| **Platform-dependent**  | Locked into platform ecosystems with little control over rules             |
 
 ### What this implies for product design:
 
-| User Expectation | GigInsure's Response |
-|:---|:---|
-| **Instant payouts** | Claims processed and paid within minutes, not days |
-| **No complex verification** | Minimal-friction validation; no lengthy forms or paperwork |
-| **System may be exploited** | Built-in anti-fraud from day one, not an afterthought |
-| **Trust is everything** | Transparent scoring; workers can see why a decision was made |
+| User Expectation              | GigInsure's Response                                                         |
+|:------------------------------|:-----------------------------------------------------------------------------|
+| **Instant payouts**           | Claims processed and paid within minutes, not days                           |
+| **No complex verification**   | Minimal-friction validation; no lengthy forms or paperwork                  |
+| **System may be exploited**   | Built-in anti-fraud from day one, not an afterthought                       |
+| **Trust is everything**       | Transparent scoring; workers can see why a decision was made                |
 
 ### Design principles:
 
@@ -163,12 +275,12 @@ The worker signs up and links their gig platform accounts:
 
 We pull and structure comprehensive data from linked platforms:
 
-| Data Type | Details |
-|:---|:---|
-| **Order History** | Total orders, completion rate, cancellation rate |
-| **Ratings** | Customer and platform ratings over time |
-| **Active Hours** | Daily, weekly, and monthly active work hours |
-| **Earnings** | Daily, weekly, monthly, and yearly income breakdown |
+| Data Type          | Details                                                    |
+|:-------------------|:-----------------------------------------------------------|
+| **Order History**  | Total orders, completion rate, cancellation rate           |
+| **Ratings**        | Customer and platform ratings over time                    |
+| **Active Hours**   | Daily, weekly, and monthly active work hours               |
+| **Earnings**       | Daily, weekly, monthly, and yearly income breakdown        |
 
 ---
 
@@ -186,11 +298,11 @@ From raw data, we compute:
 
 Based on insights, we generate **weekly insurance plans** with dynamic pricing:
 
-| Pricing Factor | Impact on Premium |
-|:---|:---|
-| **Earnings History** | Higher consistent earnings → lower premium |
-| **Activity Level** | More active workers → better rates |
-| **Trust Score** | Good behavioral history → significant discounts |
+| Pricing Factor         | Impact on Premium                                         |
+|:-----------------------|:----------------------------------------------------------|
+| **Earnings History**   | Higher consistent earnings → lower premium                |
+| **Activity Level**     | More active workers → better rates                        |
+| **Trust Score**        | Good behavioral history → significant discounts           |
 
 ---
 
@@ -233,11 +345,11 @@ GigInsure goes **far beyond weather-based triggers**. We handle the scenarios th
 
 During low-demand periods, economic slowdowns, or platform outages, gig workers experience:
 
-| Scenario | Impact on Worker |
-|:---|:---|
-| **Low demand periods** | Zero or minimal orders despite being actively available |
-| **Economic slowdowns** | Reduced consumer spending leads to fewer orders platform-wide |
-| **Platform outages** | Technical failures completely cut off order flow |
+| Scenario                 | Impact on Worker                                                      |
+|:-------------------------|:----------------------------------------------------------------------|
+| **Low demand periods**   | Zero or minimal orders despite being actively available               |
+| **Economic slowdowns**   | Reduced consumer spending leads to fewer orders platform-wide         |
+| **Platform outages**     | Technical failures completely cut off order flow                      |
 
 The worker is **online, active, and ready** — but earns nothing. No existing insurance product covers this.
 
@@ -282,12 +394,12 @@ We do **not** rely on GPS alone. We validate the full spectrum of worker behavio
 
 </div>
 
-| Signal | Genuine Worker | Attacker |
-|:---|:---|:---|
-| **Motion** | Continuous, natural movement | Fake GPS movement, no physical motion |
-| **Routes** | Logical, realistic paths | Random teleportation, abrupt jumps |
-| **Delivery Pattern** | Consistent pickup → delivery flow | Irregular, non-sequential behavior |
-| **Device** | Real device, stable fingerprint | Emulator, multi-location abuse |
+| Signal                 | Genuine Worker                           | Attacker                                    |
+|:-----------------------|:-----------------------------------------|:--------------------------------------------|
+| **Motion**             | Continuous, natural movement             | Fake GPS movement, no physical motion       |
+| **Routes**             | Logical, realistic paths                 | Random teleportation, abrupt jumps          |
+| **Delivery Pattern**   | Consistent pickup → delivery flow        | Irregular, non-sequential behavior          |
+| **Device**             | Real device, stable fingerprint          | Emulator, multi-location abuse              |
 
 ---
 
@@ -347,14 +459,14 @@ Our claim handling pipeline balances **fraud prevention with UX fairness**:
 
 </div>
 
-| Confidence Level | Action | User Experience |
-|:---|:---|:---|
-| **High Confidence** | Instant payout | Zero friction — money in account within minutes |
-| **Medium Risk** | Soft verification | Quick selfie or one-tap confirmation — 30 seconds |
-| **High Risk** | Manual review | Delayed payout (never outright rejected) — reviewed within 24 hours |
+| Confidence Level    | Action              | User Experience                                                       |
+|:--------------------|:--------------------|:----------------------------------------------------------------------|
+| **High Confidence** | Instant payout      | Zero friction — money in account within minutes                       |
+| **Medium Risk**     | Soft verification   | Quick selfie or one-tap confirmation — 30 seconds                     |
+| **High Risk**       | Manual review       | Delayed payout (never outright rejected) — reviewed within 24 hours   |
 
-> ### Core Principle
-> **We prioritize false negatives over false positives.**  
+> **Core Principle:**
+> We prioritize false negatives over false positives.  
 > A genuine worker should **never** be denied income protection. If there's doubt, we lean toward paying out and learning from the case — not blocking the worker.
 
 ---
@@ -373,11 +485,11 @@ Fraud Score = w₁ × GPS_anomaly
             + w₃ × Behavior_anomaly
 ```
 
-| Weight | Signal | Description |
-|:---|:---|:---|
-| `w₁` | **GPS Anomaly** | Teleportation, impossible speeds, static coordinates |
-| `w₂` | **Motion Anomaly** | No accelerometer activity during "active" work |
-| `w₃` | **Behavior Anomaly** | Zero deliveries despite being "online" for hours |
+| Weight | Signal                 | Description                                                    |
+|:-------|:-----------------------|:---------------------------------------------------------------|
+| `w₁`  | **GPS Anomaly**        | Teleportation, impossible speeds, static coordinates           |
+| `w₂`  | **Motion Anomaly**     | No accelerometer activity during "active" work                 |
+| `w₃`  | **Behavior Anomaly**   | Zero deliveries despite being "online" for hours               |
 
 Each weight is **tunable** and region-specific.
 
@@ -385,11 +497,11 @@ Each weight is **tunable** and region-specific.
 
 ### Phase 2 — ML-Driven Detection
 
-| Technique | Purpose |
-|:---|:---|
-| **Isolation Forest** | Detects individual outliers in activity patterns |
-| **Behavioral Clustering** | Groups workers by behavior to identify norm violations |
-| **Fraud Pattern Detection** | Recognizes coordinated multi-account fraud rings |
+| Technique                    | Purpose                                                          |
+|:-----------------------------|:-----------------------------------------------------------------|
+| **Isolation Forest**         | Detects individual outliers in activity patterns                 |
+| **Behavioral Clustering**    | Groups workers by behavior to identify norm violations           |
+| **Fraud Pattern Detection**  | Recognizes coordinated multi-account fraud rings                 |
 
 ---
 
@@ -417,14 +529,14 @@ The full system architecture showing the end-to-end data flow:
 
 ### Architecture Layers
 
-| Layer | Components | Function |
-|:---|:---|:---|
-| **Data Layer** | Gig Platform APIs, Device Sensor Stream, Event Signals | Raw data ingestion from all sources |
-| **Processing Layer** | Data Pipeline, Preprocessing Engine, Feature Engineering | Cleans, transforms, and structures raw data |
-| **Feature Layer** | Motion Features, Route Features, Behavioral Features, Earnings Baseline | Extracts meaningful signals for scoring |
-| **Scoring Engine** | Valid Activity Score (PoWI), Fraud Score, Trust Score | Multi-dimensional risk evaluation |
-| **Decision Engine** | Claim Evaluation, Risk Classification, Payout Decision | Final determination on claim validity |
-| **Output Layer** | Insurance Plans, Alerts, Payouts, Model Improvement | User-facing results and feedback loops |
+| Layer                  | Components                                                                        | Function                                          |
+|:-----------------------|:----------------------------------------------------------------------------------|:--------------------------------------------------|
+| **Data Layer**         | Gig Platform APIs, Device Sensor Stream, Event Signals                            | Raw data ingestion from all sources               |
+| **Processing Layer**   | Data Pipeline, Preprocessing Engine, Feature Engineering                           | Cleans, transforms, and structures raw data       |
+| **Feature Layer**      | Motion Features, Route Features, Behavioral Features, Earnings Baseline           | Extracts meaningful signals for scoring           |
+| **Scoring Engine**     | Valid Activity Score (PoWI), Fraud Score, Trust Score                              | Multi-dimensional risk evaluation                 |
+| **Decision Engine**    | Claim Evaluation, Risk Classification, Payout Decision                            | Final determination on claim validity             |
+| **Output Layer**       | Insurance Plans, Alerts, Payouts, Model Improvement                               | User-facing results and feedback loops            |
 
 ---
 
@@ -436,11 +548,11 @@ Every worker has a dynamic **Trust Score** that directly influences their insura
 Trust Score = f(behavioral_consistency, claim_history, activity_regularity, fraud_flags)
 ```
 
-| Trust Level | Behavior | Premium Impact |
-|:---|:---|:---|
-| **High Trust** | Consistent work patterns, no fraud flags, regular activity | **Lowest premiums** — rewarded for reliability |
-| **Medium Trust** | Some inconsistencies, new account, limited history | **Standard premiums** — building reputation |
-| **Low Trust** | Suspicious activity, past flags, irregular patterns | **Higher premiums** — incentivized to improve |
+| Trust Level        | Behavior                                                             | Premium Impact                                 |
+|:-------------------|:---------------------------------------------------------------------|:-----------------------------------------------|
+| **High Trust**     | Consistent work patterns, no fraud flags, regular activity           | Lowest premiums — rewarded for reliability     |
+| **Medium Trust**   | Some inconsistencies, new account, limited history                   | Standard premiums — building reputation        |
+| **Low Trust**      | Suspicious activity, past flags, irregular patterns                  | Higher premiums — incentivized to improve      |
 
 > The system is designed to **reward good behavior over time**, creating a positive feedback loop where genuine workers get better rates the longer they use GigInsure.
 
@@ -484,29 +596,29 @@ This ensures payouts are **proportional to actual verified effort**, not binary 
 
 ## Why GigInsure Wins
 
-| Feature | Traditional Insurance | GigInsure |
-|:---|:---|:---|
-| **Trigger Model** | Weather only | Weather + Market Crash + Platform Outage |
-| **Validation** | None or GPS-only | Multi-signal Proof-of-Work (PoWI) |
-| **Fraud Detection** | Post-hoc investigation | Real-time, multi-layered, AI-driven |
-| **Pricing** | One-size-fits-all | Dynamic, reputation-based, personalized |
-| **Trust System** | None | Continuous trust scoring with rewards |
-| **Payout Speed** | Days to weeks | Minutes (high confidence claims) |
-| **Worker Experience** | Complex forms and paperwork | Frictionless, mobile-first, transparent |
-| **Market Crash Coverage** | Not covered | Fully supported |
-| **Coordinated Fraud Defense** | Not handled | Crowd anomaly detection |
+| Feature                        | Traditional Insurance                | GigInsure                                         |
+|:-------------------------------|:-------------------------------------|:--------------------------------------------------|
+| **Trigger Model**              | Weather only                         | Weather + Market Crash + Platform Outage          |
+| **Validation**                 | None or GPS-only                     | Multi-signal Proof-of-Work (PoWI)                 |
+| **Fraud Detection**            | Post-hoc investigation               | Real-time, multi-layered, AI-driven               |
+| **Pricing**                    | One-size-fits-all                    | Dynamic, reputation-based, personalized           |
+| **Trust System**               | None                                 | Continuous trust scoring with rewards             |
+| **Payout Speed**               | Days to weeks                        | Minutes (high confidence claims)                  |
+| **Worker Experience**          | Complex forms and paperwork          | Frictionless, mobile-first, transparent           |
+| **Market Crash Coverage**      | Not covered                          | Fully supported                                   |
+| **Coordinated Fraud Defense**  | Not handled                          | Crowd anomaly detection                           |
 
 ---
 
 ## Future Scope
 
-| Phase | Milestone | Description |
-|:---|:---|:---|
-| **Phase 1** | MVP Launch | Rule-based scoring, basic coverage, single city pilot |
-| **Phase 2** | ML Integration | Isolation Forest, behavioral clustering, adaptive models |
-| **Phase 3** | Insurance Partnerships | Collaboration with licensed insurance providers for regulatory compliance |
-| **Phase 4** | National Rollout | Multi-city expansion across India's gig economy |
-| **Phase 5** | Ecosystem Integration | Real-time adaptive pricing, cross-platform data sharing, international expansion |
+| Phase       | Milestone                    | Description                                                                                  |
+|:------------|:-----------------------------|:---------------------------------------------------------------------------------------------|
+| **Phase 1** | MVP Launch                   | Rule-based scoring, basic coverage, single city pilot                                        |
+| **Phase 2** | ML Integration               | Isolation Forest, behavioral clustering, adaptive models                                     |
+| **Phase 3** | Insurance Partnerships       | Collaboration with licensed insurance providers for regulatory compliance                    |
+| **Phase 4** | National Rollout             | Multi-city expansion across India's gig economy                                              |
+| **Phase 5** | Ecosystem Integration        | Real-time adaptive pricing, cross-platform data sharing, international expansion             |
 
 ---
 
